@@ -8,6 +8,8 @@ import {
   Clock,
   Award,
   Cpu,
+  HeartHandshake,
+  Handshake,
 } from 'lucide-react';
 import { NavProduct, NavResource, Step, ProductSuiteItem, IndustryLogo, Review } from './types';
 
@@ -20,11 +22,13 @@ export const BRAND = {
 
 export const NAV_PRODUCTS: NavProduct[] = [
   { title: "AI JOB AD", desc: "Create compelling job ads in seconds.", icon: Zap, href: "#", color: "bg-blue-500" },
+  { title: "AI CANDIDATE SEARCH", desc: "Headhunt top talent directly.", icon: Search, href: "#", color: "bg-orange-500" },
   { title: "SMART WALK-IN", desc: "Streamline bulk hiring events.", icon: Users, href: "#", color: "bg-green-500" },
   { title: "MY TALENT POOL", desc: "Build your own database of candidates.", icon: Briefcase, href: "#", color: "bg-purple-500" },
-  { title: "CANDIDATE SEARCH", desc: "Headhunt top talent directly.", icon: Search, href: "#", color: "bg-orange-500" },
   { title: "COMPANY BRANDING", desc: "Showcase your culture.", icon: LayoutTemplate, href: "#", color: "bg-pink-500" },
   { title: "CAREER PAGE", desc: "Your branded hiring site.", icon: Globe, href: "#", color: "bg-indigo-500" },
+  { title: "AJOBTHING CARE", desc: "Dedicated support and guidance for hiring success.", icon: HeartHandshake, href: "#", color: "bg-rose-500" },
+  { title: "PARTNERSHIP", desc: "Collaborate with us to expand your reach.", icon: Handshake, href: "#", color: "bg-teal-500" },
 ];
 
 export const NAV_RESOURCES: NavResource[] = [

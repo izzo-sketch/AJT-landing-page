@@ -13,9 +13,11 @@ import {
 import Button from './components/Button';
 import Home from './components/Home';
 import { Pricing } from './components/Pricing';
+import { AiJobAd } from './components/AiJobAd';
+import AiCandidateSearch from './components/AiCandidateSearch';
 import { NAV_PRODUCTS, NAV_RESOURCES } from './constants';
 
-type Page = 'home' | 'pricing';
+type Page = 'home' | 'pricing' | 'ai-job-ad' | 'ai-candidate-search';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -87,9 +89,22 @@ export default function App() {
                <button onClick={() => navigate('home')} className={`px-4 py-2 text-sm font-bold transition-colors ${currentPage === 'home' ? 'text-[#f7a022]' : 'text-slate-900 hover:text-[#f7a022]'}`}>Home</button>
                <div className="relative group">
                   <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-slate-600 hover:text-[#f7a022] transition-colors group-hover:text-[#f7a022]">Products <ChevronDown className="w-3 h-3 transition-transform group-hover:-rotate-180" /></button>
-                  <div className="absolute top-full left-0 w-[400px] bg-white rounded-xl shadow-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50 overflow-hidden p-2 grid gap-1">
+                  <div className="absolute top-full left-0 w-[600px] bg-white rounded-xl shadow-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50 overflow-hidden p-2 grid grid-cols-2 gap-1">
                      {NAV_PRODUCTS.map((prod, idx) => (
-                        <a key={idx} href={prod.href} className="flex items-start p-3 rounded-lg hover:bg-slate-50 transition-colors group/item">
+                        <a 
+                          key={idx} 
+                          href={prod.href} 
+                          onClick={(e) => {
+                             if (prod.title === 'AI JOB AD') {
+                                e.preventDefault();
+                                navigate('ai-job-ad');
+                             } else if (prod.title === 'AI CANDIDATE SEARCH') {
+                                e.preventDefault();
+                                navigate('ai-candidate-search');
+                             }
+                          }}
+                          className="flex items-start p-3 rounded-lg hover:bg-slate-50 transition-colors group/item h-full"
+                        >
                            <div className={`w-8 h-8 rounded-lg ${prod.color} flex items-center justify-center text-white flex-shrink-0 mt-0.5`}><prod.icon className="w-4 h-4" /></div>
                            <div className="ml-3">
                               <div className="text-xs font-bold text-slate-900 uppercase tracking-wide group-hover/item:text-[#f7a022]">{prod.title}</div>
@@ -126,19 +141,14 @@ export default function App() {
                <a href="/faq" className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-[#f7a022] transition-colors">FAQ</a>
             </div>
             <div className="hidden lg:flex items-center gap-3">
-               <Button variant="secondary">Login</Button>
+               <Button variant="primary">Login</Button>
                <Button variant="secondary">Register</Button>
-               <Button variant="primary">
-                  <Zap className="w-4 h-4" />
-                  Post Job Now
-               </Button>
                <a href="/product/hiring-in-malaysia" className="text-sm font-bold text-[#f7a022] hover:underline ml-2 flex items-center gap-1" onClick={() => console.log('gtag event')}>
                   <Globe className="w-3.5 h-3.5" />
                   海外企业来马招聘
                </a>
             </div>
             <div className="lg:hidden flex items-center gap-3">
-              <Button variant="primary" className="text-xs px-3 py-1.5"><Zap className="w-3 h-3" /> Post Job</Button>
               <button className="text-slate-600 p-2 hover:bg-slate-100 rounded-lg" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>{isMobileMenuOpen ? <X /> : <Menu />}</button>
             </div>
           </div>
@@ -150,7 +160,25 @@ export default function App() {
                 <button onClick={() => navigate('home')} className="block w-full text-left px-4 py-2 text-sm font-bold text-[#f7a022] bg-orange-50 rounded-lg">Home</button>
                 <div className="py-2">
                    <div className="px-4 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Products</div>
-                   {NAV_PRODUCTS.map((p,i) => (<a key={i} href={p.href} className="flex items-center gap-3 px-4 py-2 text-slate-700 hover:bg-slate-50 rounded-lg"><p.icon className="w-4 h-4 text-slate-400" /><span className="text-sm font-medium">{p.title}</span></a>))}
+                   {NAV_PRODUCTS.map((p,i) => (
+                      <a 
+                        key={i} 
+                        href={p.href} 
+                        onClick={(e) => {
+                           if (p.title === 'AI JOB AD') {
+                              e.preventDefault();
+                              navigate('ai-job-ad');
+                           } else if (p.title === 'AI CANDIDATE SEARCH') {
+                              e.preventDefault();
+                              navigate('ai-candidate-search');
+                           }
+                        }}
+                        className="flex items-center gap-3 px-4 py-2 text-slate-700 hover:bg-slate-50 rounded-lg"
+                      >
+                         <p.icon className="w-4 h-4 text-slate-400" />
+                         <span className="text-sm font-medium">{p.title}</span>
+                      </a>
+                   ))}
                 </div>
                 <button onClick={() => navigate('pricing')} className="block w-full text-left px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg">Pricing</button>
                 <div className="py-2">
@@ -163,9 +191,8 @@ export default function App() {
                 </a>
              </div>
              <div className="border-t border-slate-100 mt-4 pt-4 space-y-3">
-                <Button variant="outline" className="w-full">Login</Button>
-                <Button variant="outline" className="w-full">Register</Button>
-                <Button variant="primary" className="w-full"><Zap className="w-4 h-4" /> Post Job Now</Button>
+                <Button variant="primary" className="w-full">Login</Button>
+                <Button variant="secondary" className="w-full">Register</Button>
              </div>
           </div>
         )}
@@ -175,6 +202,8 @@ export default function App() {
       <main className="flex-grow">
          {currentPage === 'home' && <Home />}
          {currentPage === 'pricing' && <Pricing />}
+         {currentPage === 'ai-job-ad' && <AiJobAd />}
+         {currentPage === 'ai-candidate-search' && <AiCandidateSearch />}
       </main>
 
       {/* --- FOOTER --- */}
@@ -212,6 +241,8 @@ export default function App() {
         .animate-spin-slow { animation: spin-slow 4s linear infinite; }
         @keyframes float-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
+        @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10%); } }
+        .animate-bounce-slow { animation: bounce-slow 2s infinite; }
       `}</style>
     </div>
   );
